@@ -5,3 +5,5 @@ var ajax = new Ajax();
 ajax.url(url).get(function (data) {
 	console.log('Data', data);
 });
+
+ajax.url(url).id(1).get('comments');
