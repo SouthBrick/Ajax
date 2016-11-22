@@ -12,23 +12,28 @@ TODO: Describe the installation process
 const url = 'http://your-url';
 const ajax = new Ajax(url);
 
+/users
 ajax.resource('users')
 	.get(data => data);
 
+/users/1
 ajax.resource('users')
 	.id(1)
 	.get(data => data);
 
+/users?first=John
 ajax.resource('users')
 	.where('first')
 	.is('John')
 	.get(data => data);
 
+/users?last_ne=Smith
 ajax.resource('users')
 	.where('last')
-	.isNot('Doe')
+	.isNot('Smith')
 	.get(data => data);
 
+/users?first=John&state_ne=GA
 ajax.resource('users')
 	.where('first')
 	.is('John')
