@@ -11,7 +11,8 @@ function Ajax(url) {
         headers: new Headers(),
         method: undefined,
         async: true,
-        data: undefined
+        data: undefined,
+        json: true
     }
     this._firstIndentifier = true;
 }
@@ -20,6 +21,11 @@ Ajax.prototype.headers = function(headers) {
     this._params.headers.add(headers);
     return this;
 };
+
+Ajax.prototype.json = function(json) {
+    this._params.json = json;
+    return this;
+}
 
 Ajax.prototype.sync = function() {
     this._params.async = false;
@@ -42,7 +48,7 @@ Ajax.prototype.id = function(id) {
 };
 
 Ajax.prototype.filter = function(filter) {
-  this._params.url.add({ type: 'filter', val: filter });
+    this._params.url.add({ type: 'filter', val: filter });
 }
 
 Ajax.prototype.where = function(identifier) {
@@ -84,18 +90,18 @@ Ajax.prototype.post = function(callback) {
 }
 
 Ajax.prototype.put = function(callback) {
-  this._params.method = this._methods.put;
-  this._process(callback);
+    this._params.method = this._methods.put;
+    this._process(callback);
 }
 
 Ajax.prototype.patch = function(callback) {
-  this._params.method = this._methods.patch;
-  this._process(callback);
+    this._params.method = this._methods.patch;
+    this._process(callback);
 }
 
 Ajax.prototype.delete = function(callback) {
-  this._params.method = this._methods.delete;
-  this._process(callback);
+    this._params.method = this._methods.delete;
+    this._process(callback);
 }
 
 Ajax.prototype._process = function(callback) {
@@ -171,12 +177,14 @@ Headers.prototype.validate = function() {
 }
 
 Headers.prototype.add = function(headers) {
-    this._custom = true;
-    this._headers = headers;
+    if (Array.isArray(headers))
+        this._headers = this._headers.concat(headers);
+    else
+        this.headers.push(headers);
 };
 
 Headers.prototype.set = function(req) {
-    if (!this._custom)
+    if (this._params.json)
         this._headers.push(this._json);
 
     this._headers.forEach(function(header) {
@@ -186,7 +194,6 @@ Headers.prototype.set = function(req) {
 
 Headers.prototype.clear = function() {
     this._headers = [];
-    this._custom = false;
 };
 
 function Data(data) {
@@ -206,7 +213,7 @@ Request.prototype.open = function(callback) {
     this._req.open(this._params.method, this._params.url.full, this._params.async);
     this._req.onreadystatechange = handleStateChange.bind(this);
 
-    this._params.headers.set(this._req);
+    this._params.headers.set(this._params, this._req);
 
     function handleStateChange() {
         if (this._req.readyState != 4 || this._req.status != 200) {

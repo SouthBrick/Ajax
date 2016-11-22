@@ -1,6 +1,8 @@
 # Ajax
 
-Client-side Javascript Application for chainable AJAX/XHR requests
+Client-side Javascript library for working with RESTful APIs using chainable and modular AJAX/XHR requests.
+
+This library is a JSON first library out-of-the-box but can be used to process any type of data via customizable headers.
 
 ## Installation
 
@@ -51,6 +53,56 @@ const ajax = new Ajax('http://url');
 ajax.resource('users')
 	.get(data => data);
 ```
+Ajax is designed to allow for extensive and powerful requests.
+
+You can start building your request, leave it, perform some other application calls/logic and come back to your request to finish and send it.
+
+Ajax requests are sent only when a final XHR METHOD i.e. GET/POST/PUT/PATCH/DELETE is called on the object.
+```
+const ajax = new Ajax();
+
+// Code to Select API url
+// Set the url string
+ajax.url('http://url');
+
+// Users Route call in the application is initiated
+// Set the ajax resource as 'users'
+ajax.resource('users');
+
+// Single User resource is called in the application
+// Call the id() method to set the resource :id
+ajax.id(3);
+
+// Send a GET call to the backend API
+// Call the .get() method to retrieve the specified User data
+ajax.get(data => data);
+
+// A different User resource is called
+// Set the id() method to set the new resource :id
+// Send the request via the get() method in the same call
+ajax.id(4)
+	.get(data => data);
+
+// The Cars resource is navigated to within the application
+// Retrieve data to display all of the cars
+// Call the resource() method then the get() method
+ajax.resource('cars')
+	.get(data => data);
+
+// A User has asked to delete their account from the application
+// Call the resource() method, the id() method, then the delete() method
+ajax.resource('users')
+	.id(41)
+	.delete(data => data);
+
+// A third party API needs to be called
+const newAPIURL = 'http://new_url';
+ajax.url('newAPIUrl');
+
+// However it is advised to create a new ajax instance in this case
+const newAPIURL = 'http://new_url';
+const newAjax = Ajax('http://new_url');
+```
 ### .resource()
 Call the resource() method to declare the API endpoint i.e. 'users'
 ```
@@ -82,7 +134,7 @@ ajax.resource('users')
 ### POST
 POST /users
 
-Sends a POST request with JSON data
+Sends a POST request with data as a JSON object.
 
 NOTE: data passed to the .data() method is automatically converted to JSON
 ```
@@ -93,7 +145,9 @@ ajax.resource('users')
 ### PUT
 PUT /users/1
 
-Sends a PUT request with JSON data for the specified resource :id
+Sends a PUT request for the specified resource :id and data.
+
+NOTE: data passed to the .data() method is automatically converted to JSON
 ```
 ajax.resource('users')
 	.id(1)
@@ -102,6 +156,10 @@ ajax.resource('users')
 ```
 ### PATCH
 PATCH /users/1
+
+Sends a PATCH request for the specified resource :id and data.
+
+NOTE: data passed to the .data() method is automatically converted to JSON
 ```
 ajax.resource('users')
 	.data({first: 'Dan'})
@@ -179,6 +237,34 @@ ajax.resource('users')
 	.id(3)
 	.get(data => data);
 ```
+## Headers
+### .headers()
+The .headers() method can accept a single Object or an Array of Objects.
+```
+ajax.headers({'Content-type': 'application/x-www-form-urlencoded'});
+```
+OR an Array of Objects
+```
+const headers = [
+	{'Content-type': 'application/x-www-form-urlencoded'},
+	{'Authorization': 'Token'}
+];
+
+ajax.headers(headers);
+```
+You can call the .headers() any amount of times when building a request.
+
+Each call will append the Object or Array to the current list of headers
+```
+ajax.headers({'Content-type': 'application/x-www-form-urlencoded'});
+ajax.headers({'Authorizaion': 'Token'});
+```
+Multiple .headers() methods can be chained simultaneously
+```
+ajax.headers({'Content-type': 'application/x-www-form-urlencoded'})
+	.headers({'Authorizaion': 'Token'});
+```
+### Passing Other types of Data via Headers
 
 ## Contributing
 
