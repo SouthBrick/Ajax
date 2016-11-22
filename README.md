@@ -32,8 +32,11 @@ ajax.resource('users')
 	.where('last')
 	.isNot('Smith')
 	.get(data => data);
-
+```
+## Filters
+### Multiple Filters
 /users?first=John&state_ne=GA
+```
 ajax.resource('users')
 	.where('first')
 	.is('John')
@@ -41,13 +44,15 @@ ajax.resource('users')
 	.where('state')
 	.isNot('GA')
 	.get(data => data);
-
+```
+### POST
+```
 ajax.resource('users')
 	.data({first: 'Peter', last: 'Smith'})
 	.post(data => data);
 ```
 
-# Nested Resources
+### Nested Resources
 /users/1/cars/3
 ```
 ajax.resource('users')
