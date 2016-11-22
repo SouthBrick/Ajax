@@ -95,11 +95,26 @@ ajax.resource('users')
 	.id(41)
 	.delete(data => data);
 
-// A third party API needs to be called
+// A new User has signed up for a new account
+// Call the resource() method
+// Call the data() method with the user's data and then post() method to send the data
+
+const userData = {
+	first: 'John',
+	last: 'Doe',
+	username: 'jDoe'
+	email: 'jDoe@email.com'
+}
+
+ajax.resource('users')
+	.data(userData)
+	.post(data => data);
+
+// A third party API needs to be called.
 const newAPIURL = 'http://new_url';
 ajax.url('newAPIUrl');
 
-// However it is advised to create a new ajax instance in this case
+// However it is advised to create a new ajax instance in this case.
 const newAPIURL = 'http://new_url';
 const newAjax = Ajax('http://new_url');
 ```
@@ -109,7 +124,7 @@ Call the resource() method to declare the API endpoint i.e. 'users'
 ajax.resource('users');
 ```
 ### .id()
-Call the id() method after the resource method to declare single resource.
+Call the id() method after the resource method to declare a single resource.
 ```
 ajax.resource('users')
 	.id(1);
