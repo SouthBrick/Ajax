@@ -41,6 +41,7 @@ ajax.resource('users')
 	.where('first')
 	.is('John')
 	.get(data => data);
+```
 ### InEquality
 GET /users?last_ne=Smith
 ```
