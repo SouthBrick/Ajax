@@ -8,7 +8,52 @@ This library is a JSON first library out-of-the-box but can be used to process a
 
 Include the ajax.js file.
 
-Ajax relies on no dependencies.
+Ajax has no dependencies.
+
+## TLDR Usage
+```
+var url = 'http://localhost:3000';
+var ajax = new Ajax(url);
+
+ajax.resource('users')
+	.get(data => console.log('GET LIST', data));
+
+ajax.resource('users')
+	.id(1)
+	.get(data => console.log('GET SINGLE', data));
+
+ajax.resource('users')
+	.data({first: "John", last: "Doe"})
+	.post(data => console.log('POST CREATE', data));
+
+ajax.resource('users')
+	.id(1)
+	.delete(data => console.log('DELETE', data));
+
+ajax.resource('users')
+	.where('first')
+	.is('John')
+	.get(data => console.log('FILTERED IS', data));
+
+ajax.resource('users')
+	.where('last')
+	.isNot('Smith')
+	.get(data => console.log('FILTERED ISNOT', data));
+
+ajax.resource('users')
+	.where('first')
+	.is('John')
+	.and()
+	.where('last')
+	.isNot('Smith')
+	.get(data => console.log('FILTERED DOUBLE', data));
+
+ajax.resource('users')
+	.id(1)
+	.resource('cars')
+	.id(3)
+	.get(data => console.log('NESTED RESOURCE', data));
+```
 
 ## Basic Usage
 
