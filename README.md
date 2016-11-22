@@ -275,6 +275,8 @@ ajax.resource('users')
 ## Headers
 ### .headers()
 The .headers() method can accept a single Object or an Array of Objects.
+
+The method sets the headers for the XHR request via the native XMLHTTPRequest setRequestHeader() method.
 ```
 ajax.headers({'Content-type': 'application/x-www-form-urlencoded'});
 ```
@@ -300,6 +302,36 @@ ajax.headers({'Content-type': 'application/x-www-form-urlencoded'})
 	.headers({'Authorizaion': 'Token'});
 ```
 ### Passing Other types of Data via Headers
+Ajax is a JSON first library out-of-the-box.
+
+If you need to pass a different type of data i.e. Form, XML then call the .json() method with a parameter of false to turn JSON off. 
+
+Then pass in the appropriate headers for the data type you need
+```
+ajax.json(false)
+	.headers({'Content-type': 'application/x-www-form-urlencoded'});
+```
+You can call the json method before or after any headers method call.
+```
+ajax.headers({'Content-type': 'application/x-www-form-urlencoded'});
+	.json(false);
+```
+NOTE: headers are cleared after every request method is called
+
+However the JSON state set via the .json() method will persist.
+
+To turn JSON back on call the .json() method with a parameter of true.
+```
+ajax.resource('upload')
+	.json(false)
+	.headers({'Content-type': 'application/x-www-form-urlencoded'})
+	.data(formData)
+	.post(data => data);
+
+ajax.json(true)
+	.resource('users')
+	.get(data => data);
+```
 
 ## Contributing
 
