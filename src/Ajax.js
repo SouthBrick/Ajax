@@ -1,7 +1,9 @@
 function Ajax(url) {
     this._methods = {
         get: 'GET',
-        post: 'POST'
+        post: 'POST',
+        put: 'PUT',
+        delete: 'DELETE'
     };
     this._params = {
         url: new URL(url),
@@ -74,6 +76,16 @@ Ajax.prototype.data = function(data) {
 Ajax.prototype.post = function(callback) {
     this._params.method = this._methods.post;
     this._process(callback);
+}
+
+Ajax.prototype.put = function(callback) {
+  this._params.method = this._methods.put;
+  this._process(callback);
+}
+
+Ajax.prototype.delete = function(callback) {
+  this._params.method = this._methods.delete;
+  this._process(callback);
 }
 
 Ajax.prototype._process = function(callback) {
