@@ -40,6 +40,10 @@ Ajax.prototype.id = function(id) {
     return this;
 };
 
+Ajax.prototype.filter = function(filter) {
+  this._params.url.add({ type: 'filter', val: filter });
+}
+
 Ajax.prototype.where = function(identifier) {
     this._params.url.add({ type: 'identifier', val: identifier, first: this._firstIndentifier });
     this._firstIndentifier = false;

@@ -144,10 +144,21 @@ ajax.resource('users')
 	.get(data => data);
 ```
 ### Custom Filters
+GET /users?first=John
 ```
-TODO: Add
+ajax.resource('users')
+	.filter('?first=John')
+	.get(data => data);
 ```
-
+### Custom Filters and Builtin Filters
+```
+ajax.resource('users')
+	.filter('?first=John')
+	.and()
+	.where('last')
+	.is('Smith')
+	.get(data => data);
+```
 
 ### Nested Resources
 GET /users/1/cars/3
