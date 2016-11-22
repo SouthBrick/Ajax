@@ -8,12 +8,25 @@ TODO: Describe the installation process
 
 ## Usage
 
-TODO: Write usage instructions
-
 ```
-const ajax = new Ajax();
-ajax.url('http://your-url')
-	.resource('users')
+const url = 'http://your-url';
+const ajax = new Ajax(url);
+
+ajax.resource('users')
+	.get(data => data);
+
+ajax.resource('users')
+	.id(1)
+	.get(data => data);
+
+ajax.resource('users')
+	.where('first')
+	.is('John')
+	.get(data => data);
+
+ajax.resource('users')
+	.where('last')
+	.isNot('Smith')
 	.get(data => data);
 ```
 
