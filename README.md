@@ -20,7 +20,6 @@ const ajax = new Ajax();
 ajax.url(url);
 ```
 This is useful if you want to call multiple APIs from the same Ajax instance.
-You could also create multiple instances of the Ajax object passing the urls as a single parameter in each instantiation.
 ```
 const ajax = new Ajax();
 
@@ -43,13 +42,22 @@ ajax1.resource('users')
 ajax2.resource('cars')
 	.get(data =>  data);
 ```
-However, if you are working primarily with a single REST API it is recommended to instantiate the new object with the url parameter.
+However, if you are working primarily with a single REST API it is recommended to instantiate the new object with the url parameter and use that instance throughout your app.
 ```
 const ajax = new Ajax('http://url');
 
 ajax.resource('users')
 	.get(data => data);
 ```
+### .resource()
+Call the resource() method to declare the API endpoint i.e. 'users'
+@param: string
+```
+ajax.resource('users');
+```
+### .id()
+Call the id() method after the resource method to declare single resource.
+@param: int or string
 ### GET
 ```
 /users
