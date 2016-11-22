@@ -1,4 +1,4 @@
-# ${1:Project Name}
+# Ajax
 
 TODO: Write a project description
 
@@ -9,6 +9,10 @@ TODO: Describe the installation process
 ## Usage
 
 TODO: Write usage instructions
+
+```
+Give examples
+```
 
 ## Contributing
 
