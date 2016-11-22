@@ -11,7 +11,7 @@ TODO: Describe the installation process
 TODO: Write usage instructions
 
 ```
-Give examples
+const ajax = new Ajax();
 ```
 
 ## Contributing
