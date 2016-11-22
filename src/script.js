@@ -1,4 +1,4 @@
-console.log('Load Script');
+console.log('Load Script2');
 var url = 'http://localhost:3000';
 var ajax = new Ajax();
 
@@ -28,26 +28,3 @@ ajax.url(url).resource('posts').get(function (data) {
 ajax.url(url).resource('posts').data({title: "test title", author: "test author"}).post(function(data) {
 	console.log('POST', data);
 });
-// ajax.url()
-// 	.resource('comments')
-// 	.id(123)
-// 	.get();
-
-// .where('users').equals('123');
-
-// buildings/123/floors/?name="3rd"
-
-// .resource('buildings')
-// .id(123)
-// .resource('floors')
-// .where('name')
-// .equals("3rd");
-// .get();
-
-
-// paths.push(path);
-
-// paths = paths.reduce(function (prev, next) {
-// 	return prev + '/' + next;
-// }, '');
-// .resource('buildings')

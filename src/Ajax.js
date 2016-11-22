@@ -1,67 +1,3 @@
-/*
-
-  Example params Object:
-    var params = {
-      method: 'POST',
-      url: 'http://url',
-      async: false,
-      headers: [
-        {
-          header: 'Content-Type',
-          value: 'application/json;charset=UTF-8'
-        },
-        {
-          header: 'Authorization',
-          value: 'Token'
-        }
-      ],
-      data: ''{"username": "admin", "password": "admin"}'',
-    }
-
-    Example Call:
-    Ajax.send(params, function(data) {
-      return data;
-    });
-
- */
-
-// var Ajax = (function() {
-
-//     function handleHeaders(req, params) {
-//         if (params.headers !== undefined) {
-//             for (var i = 0; i < params.headers.length; i++) {
-//                 req.setRequestHeader(params.headers[i].header, params.headers[i].val);
-//             }
-//         }
-//     }
-
-//     function handleData(params) {
-//         if (params.data !== undefined) {
-//             return params.data;
-//         }
-//     }
-
-//     function send(params, callback) {
-//         var req = new XMLHttpRequest();
-//         req.open(params.method, params.url, params.async);
-//         req.onreadystatechange = function() {
-//             if (req.readyState != 4 || req.status != 200) {
-//                 return;
-//             } else {
-//                 callback(req.responseText);
-//             }
-//         };
-//         handleHeaders(req, params);
-//         req.send(handleData(params));
-//     }
-//     return {
-//         send: send
-//     };
-
-// })();
-
-console.log('Load Ajax');
-
 function Ajax(url) {
     this._methods = {
         get: 'GET',
@@ -69,14 +5,17 @@ function Ajax(url) {
     };
     this._params = {
         url: new URL(url),
+        headers: new Headers(),
         method: undefined,
         async: true,
-        headers: [
-            { 'content-type': 'application/json' }
-        ]
+        data: undefined
     }
-    this._data = undefined;
 }
+
+Ajax.prototype.headers = function(headers) {
+    this._params.headers.add(headers);
+    return this;
+};
 
 Ajax.prototype.sync = function() {
     this._params.async = false;
@@ -84,9 +23,7 @@ Ajax.prototype.sync = function() {
 };
 
 Ajax.prototype.url = function(url) {
-    console.log('URL', url);
     this._params.url.base = url;
-    console.log('UR PARAMS', this._params);
     return this;
 }
 
@@ -117,18 +54,13 @@ Ajax.prototype.isNot = function(value) {
     return this;
 }
 
-Ajax.prototype.headers = function(headers) {
-    this._params.headers = this._params.headers.concat(headers);
-    return this;
-};
-
 Ajax.prototype.get = function(callback) {
     this._params.method = this._methods.get;
     this._process(callback);
 }
 
 Ajax.prototype.data = function(data) {
-    this._data = JSON.stringify(data);
+    this._params.data = JSON.stringify(data);
     return this;
 }
 
@@ -142,9 +74,10 @@ Ajax.prototype._process = function(callback) {
 
     this._request = new Request(this._params);
     this._request.open(callback);
-    this._request.send(this._data);
+    this._request.send();
 
     this._params.url.clear();
+    this._params.headers.clear();
     this._data = undefined;
 };
 
@@ -161,8 +94,6 @@ URL.prototype.clear = function() {
 URL.prototype.build = function() {
     this.paths.unshift({ type: 'base', val: this.base });
     this.full = this.paths.reduce(function(prev, next) {
-        console.log('PREV', prev);
-        console.log('NEXT', next);
         switch (next.type) {
             case 'base':
                 return next.val;
@@ -185,9 +116,10 @@ URL.prototype.add = function(path) {
     this.paths.push(path);
 }
 
-function Headers(req, headers) {
-    this._req = req;
-    this._headers = headers;
+function Headers() {
+    this._json = { key: 'Content-Type', val: 'application/json' };
+    this._headers = [];
+    this._custom = false;
 }
 
 Headers.prototype.validate = function() {
@@ -205,12 +137,24 @@ Headers.prototype.validate = function() {
     });
 }
 
-Headers.prototype.set = function() {
+Headers.prototype.add = function(headers) {
+    this._custom = true;
+    this._headers = headers;
+};
+
+Headers.prototype.set = function(req) {
+    if (!this._custom)
+        this._headers.push(this._json);
+
     this._headers.forEach(function(header) {
-        console.log('Headers ForEach req', this._req);
-        this._req.setRequestHeader(header.key, header.val);
-    }.bind(this));
+        req.setRequestHeader(header.key, header.val);
+    });
 }
+
+Headers.prototype.clear = function() {
+    this._headers = [];
+    this._custom = false;
+};
 
 function Data(data) {
     this.data = data;
@@ -221,36 +165,27 @@ Data.prototype.check = function() {
 }
 
 function Request(params) {
-    console.log('Params', params);
-    this.params = params;
-    this.req = new XMLHttpRequest();
-    this._headers = new Headers(this.req, this.params.headers);
+    this._params = params;
 }
 
 Request.prototype.open = function(callback) {
-    this.req.open(this.params.method, this.params.url.full, this.params.async);
-    _process(this.req);
-    this._headers.set();
+    this._req = new XMLHttpRequest();
+    this._req.open(this._params.method, this._params.url.full, this._params.async);
+    this._req.onreadystatechange = handleStateChange.bind(this);
 
-    function _process(req) {
-        req.onreadystatechange = function() {
-            _handleResponse(req);
-        };
-    }
+    this._params.headers.set(this._req);
 
-    function _handleResponse(req) {
-        if (req.readyState != 4 || req.status != 200) {
+    function handleStateChange() {
+        if (this._req.readyState != 4 || this._req.status != 200) {
             return;
         } else {
-            callback(req.responseText);
+            callback(this._req.responseText);
         }
     }
 };
 
-Request.prototype.send = function(data) {
-  console.log('DATA', data);
-    if (data)
-      this.req.send(data);
-    else
-      this.req.send();
+Request.prototype.send = function() {
+    this._params.data ?
+    this._req.send(this._params.data) :
+    this._req.send();
 };
