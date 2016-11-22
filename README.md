@@ -1,10 +1,12 @@
 # Ajax
 
-TODO: Write a project description
+Client-side Javascript Application for chainable AJAX/XHR requests
 
 ## Installation
 
-TODO: Describe the installation process
+Include the ajax.js file.
+
+Ajax relies on no dependencies.
 
 ## Basic Usage
 
