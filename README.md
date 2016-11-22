@@ -88,18 +88,24 @@ ajax.resource('users')
 	.data({first: 'Peter', last: 'Smith'})
 	.post(data => data);
 ```
-```
-/users?first=John
-ajax.resource('users')
-	.where('first')
-	.is('John')
-	.get(data => data);
+### PUT
+PUT /users/1
 
-/users?last_ne=Smith
+Sends a PUT request with JSON data for the specified resource :id
+```
 ajax.resource('users')
-	.where('last')
-	.isNot('Smith')
-	.get(data => data);
+	.id(1)
+	.data({first: 'Peter', last: 'Johnson'})
+	.put(data => data);
+```
+### DELETE
+DELETE /users/1
+
+Sends a DELETE request to delete to specified resource :id
+```
+ajax.resource('users')
+	.id(1)
+	.delete(data => data);
 ```
 ## Filters
 ### Equality
