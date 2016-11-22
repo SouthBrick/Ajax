@@ -26,8 +26,12 @@ ajax.resource('users')
 
 ajax.resource('users')
 	.where('last')
-	.isNot('Smith')
+	.isNot('Doe')
 	.get(data => data);
+
+ajax.resources('users')
+	.data({first: 'Peter', last: 'Smith'})
+	.post(data => data);
 ```
 
 ## Contributing
