@@ -100,6 +100,13 @@ ajax.resource('users')
 	.data({first: 'Peter', last: 'Johnson'})
 	.put(data => data);
 ```
+### PATCH
+PATCH /users/1
+```
+ajax.resource('users')
+	.data({first: 'Dan'})
+	.patch(data => data);
+```
 ### DELETE
 DELETE /users/1
 
