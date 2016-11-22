@@ -58,6 +58,8 @@ Ajax is designed to allow for extensive and powerful requests.
 You can start building your request, leave it, perform some other application calls/logic and come back to your request to finish and send it.
 
 Ajax requests are sent only when a final XHR METHOD i.e. GET/POST/PUT/PATCH/DELETE is called on the object.
+
+### Basic Usage Scenarios
 ```
 const ajax = new Ajax();
 
@@ -110,8 +112,8 @@ ajax.resource('users')
 
 
 // A new User has signed up for a new account
-// Call the resource() method
-// Call the data() method with the user's data and then post() method to send the data
+// Call the resource() method to set the resource
+// Call the data() method passing the user's data and then the post() method to send the data
 
 const userData = {
 	first: 'John',
