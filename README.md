@@ -34,8 +34,31 @@ ajax.resource('users')
 	.get(data => data);
 ```
 ## Filters
+### Equality
+GET /users?first=John
+```
+ajax.resource('users')
+	.where('first')
+	.is('John')
+	.get(data => data);
+### InEquality
+GET /users?last_ne=Smith
+```
+ajax.resource('users')
+	.where('last')
+	.isNot('Smith')
+	.get(data => data);
+```
+### Greater Than
+```
+TODO: Add
+```
+### Less Than
+```
+TODO: Add
+```
 ### Multiple Filters
-/users?first=John&state_ne=GA
+GET /users?first=John&state_ne=GA
 ```
 ajax.resource('users')
 	.where('first')
@@ -45,7 +68,12 @@ ajax.resource('users')
 	.isNot('GA')
 	.get(data => data);
 ```
+### Custom Filters
+```
+TODO: Add
+```
 ### POST
+POST /users
 ```
 ajax.resource('users')
 	.data({first: 'Peter', last: 'Smith'})
@@ -53,7 +81,7 @@ ajax.resource('users')
 ```
 
 ### Nested Resources
-/users/1/cars/3
+GET /users/1/cars/3
 ```
 ajax.resource('users')
 	.id(1)
