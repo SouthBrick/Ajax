@@ -51,24 +51,40 @@ ajax.resource('users')
 ```
 ### .resource()
 Call the resource() method to declare the API endpoint i.e. 'users'
-@param: string
 ```
 ajax.resource('users');
 ```
 ### .id()
 Call the id() method after the resource method to declare single resource.
-@param: int or string
-### GET
 ```
-/users
+ajax.resource('users')
+	.id(1);
+```
+## XHR Methods
+### GET
+GET /users
+Send a GET request for a list of resource type 'users'
+```
 ajax.resource('users')
 	.get(data => data);
-
-/users/1
+```
+GET /users/1
+Sends a GET request for a single resource with id = 1
+```
 ajax.resource('users')
 	.id(1)
 	.get(data => data);
-
+```
+### POST
+POST /users
+Sends a POST request with JSON data
+NOTE: data passed to the .data() method is automatically converted to JSON
+```
+ajax.resource('users')
+	.data({first: 'Peter', last: 'Smith'})
+	.post(data => data);
+```
+```
 /users?first=John
 ajax.resource('users')
 	.where('first')
@@ -121,13 +137,7 @@ ajax.resource('users')
 ```
 TODO: Add
 ```
-### POST
-POST /users
-```
-ajax.resource('users')
-	.data({first: 'Peter', last: 'Smith'})
-	.post(data => data);
-```
+
 
 ### Nested Resources
 GET /users/1/cars/3
