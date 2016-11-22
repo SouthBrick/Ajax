@@ -12,6 +12,9 @@ TODO: Write usage instructions
 
 ```
 const ajax = new Ajax();
+ajax.url('http://your-url')
+	.resource('users')
+	.get(data => data);
 ```
 
 ## Contributing
