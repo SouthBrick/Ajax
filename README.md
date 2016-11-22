@@ -8,16 +8,47 @@ TODO: Describe the installation process
 
 ## Basic Usage
 
-Create a new instance and pass the API url to the constructor
+Create a new Ajax() instance and pass the API url to the constructor.
 ```
 const url = 'http://your-url';
 const ajax = new Ajax(url);
 ```
-Or create a new instace without passing a url to the constructor and call the url() method on the new object instance
+Or create a new instace without passing a url to the constructor and call the url() method on the new object instance, passing in the url string as a parameter;
 ```
 const url = 'http://your-url';
 const ajax = new Ajax();
 ajax.url(url);
+```
+This is useful if you want to call multiple APIs from the same Ajax instance.
+You could also create multiple instances of the Ajax object passing the urls as a single parameter in each instantiation.
+```
+const ajax = new Ajax();
+
+ajax.url('http://URL1')
+	.resource('users')
+	.get(data => data);
+
+ajax.url('http://URL2')
+	.resource('cars')
+	.get(data => data);
+```
+You can acheive a similar effect by creating multiple instances and passing in the corresponding url strings on instantiation.
+```
+const ajax1 = new Ajax('http://URL1');
+const ajax2 = new Ajax('http://URL2');
+
+ajax1.resource('users')
+	.get(data => data);
+
+ajax2.resource('cars')
+	.get(data =>  data);
+```
+However, if you are working primarily with a single REST API it is recommended to instantiate the new object with the url parameter.
+```
+const ajax = new Ajax('http://url');
+
+ajax.resource('users')
+	.get(data => data);
 ```
 ### GET
 ```
@@ -96,7 +127,8 @@ GET /users/1/cars/3
 ajax.resource('users')
 	.id(1)
 	.resource('cars')
-	.id(3);
+	.id(3)
+	.get(data => data);
 ```
 
 ## Contributing
