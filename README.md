@@ -151,6 +151,7 @@ ajax.resource('users')
 	.get(data => data);
 ```
 ### Custom Filters and Builtin Filters
+GET /users?first=John&last=Smith
 ```
 ajax.resource('users')
 	.filter('?first=John')
