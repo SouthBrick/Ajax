@@ -6,12 +6,21 @@ TODO: Write a project description
 
 TODO: Describe the installation process
 
-## Usage
+## Basic Usage
 
+Create a new instance and pass the API url to the constructor
 ```
 const url = 'http://your-url';
 const ajax = new Ajax(url);
-
+```
+Or create a new instace without passing a url to the constructor and call the url() method on the new object instance
+```
+const url = 'http://your-url';
+const ajax = new Ajax();
+ajax.url(url);
+```
+### GET
+```
 /users
 ajax.resource('users')
 	.get(data => data);
