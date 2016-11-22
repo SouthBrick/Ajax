@@ -61,39 +61,53 @@ Ajax requests are sent only when a final XHR METHOD i.e. GET/POST/PUT/PATCH/DELE
 ```
 const ajax = new Ajax();
 
-// Code to Select API url
+// Code/logic to select the API url
 // Set the url string
+
 ajax.url('http://url');
+
 
 // Users Route call in the application is initiated
 // Set the ajax resource as 'users'
+
 ajax.resource('users');
+
 
 // Single User resource is called in the application
 // Call the id() method to set the resource :id
+
 ajax.id(3);
+
 
 // Send a GET call to the backend API
 // Call the .get() method to retrieve the specified User data
+
 ajax.get(data => data);
+
 
 // A different User resource is called
 // Set the id() method to set the new resource :id
 // Send the request via the get() method in the same call
+
 ajax.id(4)
 	.get(data => data);
+
 
 // The Cars resource is navigated to within the application
 // Retrieve data to display all of the cars
 // Call the resource() method then the get() method
+
 ajax.resource('cars')
 	.get(data => data);
 
+
 // A User has asked to delete their account from the application
 // Call the resource() method, the id() method, then the delete() method
+
 ajax.resource('users')
 	.id(41)
 	.delete(data => data);
+
 
 // A new User has signed up for a new account
 // Call the resource() method
@@ -110,11 +124,15 @@ ajax.resource('users')
 	.data(userData)
 	.post(data => data);
 
+
 // A third party API needs to be called.
+
 const newAPIURL = 'http://new_url';
 ajax.url('newAPIUrl');
 
+
 // However it is advised to create a new ajax instance in this case.
+
 const newAPIURL = 'http://new_url';
 const newAjax = Ajax('http://new_url');
 ```
