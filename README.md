@@ -29,6 +29,14 @@ ajax.resource('users')
 	.isNot('Doe')
 	.get(data => data);
 
+ajax.resource('users')
+	.where('first')
+	.is('John')
+	.and()
+	.where('state')
+	.isNot('GA')
+	.get(data => data);
+
 ajax.resources('users')
 	.data({first: 'Peter', last: 'Smith'})
 	.post(data => data);

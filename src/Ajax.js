@@ -10,6 +10,7 @@ function Ajax(url) {
         async: true,
         data: undefined
     }
+    this._firstIndentifier = true;
 }
 
 Ajax.prototype.headers = function(headers) {
@@ -38,7 +39,8 @@ Ajax.prototype.id = function(id) {
 };
 
 Ajax.prototype.where = function(identifier) {
-    this._params.url.add({ type: 'identifier', val: identifier });
+    this._params.url.add({ type: 'identifier', val: identifier, first: this._firstIndentifier });
+    this._firstIndentifier = false;
     return this;
 }
 
@@ -51,6 +53,11 @@ Ajax.prototype.is = function(value) {
 Ajax.prototype.isNot = function(value) {
     this._params.url.add({ type: 'operator', val: '_ne=' });
     this._params.url.add({ type: 'value', val: value });
+    return this;
+}
+
+Ajax.prototype.and = function(value) {
+    this._params.url.add({ type: 'operator', val: '&' });
     return this;
 }
 
@@ -79,6 +86,7 @@ Ajax.prototype._process = function(callback) {
     this._params.url.clear();
     this._params.headers.clear();
     this._data = undefined;
+    this._firstIndentifier = true;
 };
 
 function URL(url) {
@@ -99,7 +107,10 @@ URL.prototype.build = function() {
                 return next.val;
                 break;
             case 'identifier':
-                return prev + '/?' + next.val
+                if (next.first)
+                    return prev + '?' + next.val;
+                else
+                    return prev + next.val;
                 break;
             case 'operator':
                 return prev + next.val;
@@ -186,6 +197,6 @@ Request.prototype.open = function(callback) {
 
 Request.prototype.send = function() {
     this._params.data ?
-    this._req.send(this._params.data) :
-    this._req.send();
+        this._req.send(this._params.data) :
+        this._req.send();
 };

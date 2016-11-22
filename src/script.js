@@ -16,7 +16,6 @@ ajax.url(url)
 		console.log('query', data);
 	});
 
-
 ajax.url(url)
 	.resource('comments')
 	.where("id")
@@ -36,4 +35,15 @@ ajax.url(url)
 	.data({title: "test title", author: "test author"})
 	.post(function(data) {
 		console.log('POST', data);
+	});
+
+ajax.url(url)
+	.resource('posts')
+	.where("id")
+	.is(1)
+	.and()
+	.where("postId")
+	.isNot(3)
+	.get(function (data) {
+		console.log('DOUBLE IDENTIFIER', data);
 	});
