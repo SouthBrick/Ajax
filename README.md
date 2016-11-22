@@ -63,12 +63,14 @@ ajax.resource('users')
 ## XHR Methods
 ### GET
 GET /users
+
 Send a GET request for a list of resource type 'users'
 ```
 ajax.resource('users')
 	.get(data => data);
 ```
 GET /users/1
+
 Sends a GET request for a single resource with id = 1
 ```
 ajax.resource('users')
@@ -77,7 +79,9 @@ ajax.resource('users')
 ```
 ### POST
 POST /users
+
 Sends a POST request with JSON data
+
 NOTE: data passed to the .data() method is automatically converted to JSON
 ```
 ajax.resource('users')
