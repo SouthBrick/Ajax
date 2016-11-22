@@ -47,3 +47,10 @@ ajax.url(url)
 	.get(function (data) {
 		console.log('DOUBLE IDENTIFIER', data);
 	});
+
+ajax.url(url)
+	.resource('users')
+	.id(1)
+	.resource('cars')
+	.id(3)
+	.get(data => data);

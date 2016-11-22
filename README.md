@@ -42,9 +42,18 @@ ajax.resource('users')
 	.isNot('GA')
 	.get(data => data);
 
-ajax.resources('users')
+ajax.resource('users')
 	.data({first: 'Peter', last: 'Smith'})
 	.post(data => data);
+```
+
+# Nested Resources
+/users/1/cars/3
+```
+ajax.resource('users')
+	.id(1)
+	.resource('cars')
+	.id(3);
 ```
 
 ## Contributing
